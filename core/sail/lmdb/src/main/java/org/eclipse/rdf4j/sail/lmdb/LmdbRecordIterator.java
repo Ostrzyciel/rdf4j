@@ -218,6 +218,10 @@ class LmdbRecordIterator implements RecordIterator {
 		}
 	}
 
+	public String getIndexName() {
+		return index.toString();
+	}
+
 	@Override
 	public void close() {
 		closeInternal(true);

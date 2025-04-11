@@ -105,6 +105,10 @@ public class Var extends AbstractQueryModelNode implements ValueExpr {
 			sb.append(", value=").append(value);
 		}
 
+		if (constant) {
+			sb.append(", constant");
+		}
+
 		if (anonymous) {
 			sb.append(", anonymous");
 		}

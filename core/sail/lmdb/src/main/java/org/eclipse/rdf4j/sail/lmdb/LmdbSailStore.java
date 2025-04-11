@@ -298,7 +298,7 @@ class LmdbSailStore implements SailStore {
 
 	CloseableIteration<Resource> getContexts() throws IOException {
 		Txn txn = tripleStore.getTxnManager().createReadTxn();
-		RecordIterator records = tripleStore.getAllTriplesSortedByContext(txn);
+		LmdbRecordIterator records = tripleStore.getAllTriplesSortedByContext(txn);
 		CloseableIteration<? extends Statement> stIter1;
 		if (records == null) {
 			// Iterator over all statements
@@ -392,7 +392,7 @@ class LmdbSailStore implements SailStore {
 		ArrayList<LmdbStatementIterator> perContextIterList = new ArrayList<>(contextIDList.size());
 
 		for (long contextID : contextIDList) {
-			RecordIterator records = tripleStore.getTriples(txn, subjID, predID, objID, contextID, explicit);
+			LmdbRecordIterator records = tripleStore.getTriples(txn, subjID, predID, objID, contextID, explicit);
 			perContextIterList.add(new LmdbStatementIterator(records, valueStore));
 		}
 

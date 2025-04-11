@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
  * <var>IterationWrapper</var> should override some of these methods and may also provide additional methods and fields.
  */
 @Deprecated(since = "4.1.0")
-public class IterationWrapper<E> extends AbstractCloseableIteration<E> {
+public class IterationWrapper<E> extends AbstractCloseableIteration<E> implements IndexReportingIterator {
 
 	/*-----------*
 	 * Variables *
@@ -122,5 +122,13 @@ public class IterationWrapper<E> extends AbstractCloseableIteration<E> {
 	@Override
 	protected void handleClose() {
 		wrappedIter.close();
+	}
+
+	@Override
+	public final String getIndexName() {
+		if (wrappedIter instanceof IndexReportingIterator) {
+			return ((IndexReportingIterator) wrappedIter).getIndexName();
+		}
+		return null;
 	}
 }

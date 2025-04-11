@@ -12,6 +12,7 @@ package org.eclipse.rdf4j.sail.lmdb;
 
 import java.io.IOException;
 
+import org.eclipse.rdf4j.common.iteration.IndexReportingIterator;
 import org.eclipse.rdf4j.common.iteration.LookAheadIteration;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
@@ -23,13 +24,13 @@ import org.eclipse.rdf4j.sail.SailException;
  * A statement iterator that wraps a RecordIterator containing statement records and translates these records to
  * {@link Statement} objects.
  */
-class LmdbStatementIterator extends LookAheadIteration<Statement> {
+class LmdbStatementIterator extends LookAheadIteration<Statement> implements IndexReportingIterator {
 
 	/*-----------*
 	 * Variables *
 	 *-----------*/
 
-	private final RecordIterator recordIt;
+	private final LmdbRecordIterator recordIt;
 
 	private final ValueStore valueStore;
 
@@ -40,7 +41,7 @@ class LmdbStatementIterator extends LookAheadIteration<Statement> {
 	/**
 	 * Creates a new LmdbStatementIterator.
 	 */
-	public LmdbStatementIterator(RecordIterator recordIt, ValueStore valueStore) {
+	public LmdbStatementIterator(LmdbRecordIterator recordIt, ValueStore valueStore) {
 		this.recordIt = recordIt;
 		this.valueStore = valueStore;
 	}
@@ -85,5 +86,10 @@ class LmdbStatementIterator extends LookAheadIteration<Statement> {
 
 	private SailException causeIOException(IOException e) {
 		return new SailException(e);
+	}
+
+	@Override
+	public String getIndexName() {
+		return recordIt.getIndexName();
 	}
 }

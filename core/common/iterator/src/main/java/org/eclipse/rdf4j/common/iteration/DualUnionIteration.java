@@ -19,7 +19,7 @@ import org.eclipse.rdf4j.common.annotation.Experimental;
 /**
  * Provides a bag union of the two provided iterations.
  */
-public class DualUnionIteration<E> implements CloseableIteration<E> {
+public class DualUnionIteration<E> implements CloseableIteration<E>, IndexReportingIterator {
 
 	private final Comparator<E> cmp;
 	private CloseableIteration<? extends E> iteration1;
@@ -218,5 +218,15 @@ public class DualUnionIteration<E> implements CloseableIteration<E> {
 				}
 			}
 		}
+	}
+
+	@Override
+	public String getIndexName() {
+		if (iteration1 instanceof IndexReportingIterator) {
+			return ((IndexReportingIterator) iteration1).getIndexName();
+		} else if (iteration2 instanceof IndexReportingIterator) {
+			return ((IndexReportingIterator) iteration2).getIndexName();
+		}
+		return null;
 	}
 }

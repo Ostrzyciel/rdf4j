@@ -16,10 +16,11 @@ import java.util.Objects;
 
 import org.eclipse.rdf4j.common.annotation.InternalUseOnly;
 import org.eclipse.rdf4j.common.iteration.CloseableIteration;
+import org.eclipse.rdf4j.common.iteration.IndexReportingIterator;
 import org.eclipse.rdf4j.query.QueryEvaluationException;
 
 @InternalUseOnly
-public class TripleSourceIterationWrapper<T> implements CloseableIteration<T> {
+public class TripleSourceIterationWrapper<T> implements CloseableIteration<T>, IndexReportingIterator {
 
 	private final CloseableIteration<? extends T> delegate;
 	private boolean closed = false;
@@ -113,5 +114,13 @@ public class TripleSourceIterationWrapper<T> implements CloseableIteration<T> {
 			closed = true;
 			delegate.close();
 		}
+	}
+
+	@Override
+	public String getIndexName() {
+		if (delegate instanceof IndexReportingIterator) {
+			return ((IndexReportingIterator) delegate).getIndexName();
+		}
+		return null;
 	}
 }

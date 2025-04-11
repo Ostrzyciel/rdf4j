@@ -32,6 +32,7 @@ import org.eclipse.rdf4j.http.server.repository.resolver.RepositoryResolver;
 import org.eclipse.rdf4j.query.Query;
 import org.eclipse.rdf4j.query.QueryEvaluationException;
 import org.eclipse.rdf4j.query.QueryInterruptedException;
+import org.eclipse.rdf4j.query.explanation.Explanation;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.slf4j.Logger;
@@ -69,6 +70,8 @@ public abstract class AbstractQueryRequestHandler implements QueryRequestHandler
 			logQuery(requestMethod, queryString);
 
 			Query query = getQuery(request, repositoryCon, queryString);
+			var explanation = query.explain(Explanation.Level.Timed);
+			System.err.println(explanation.toGenericPlanNode().toString());
 
 			boolean headersOnly = requestMethod == RequestMethod.HEAD;
 			long limit = getLimit(request);

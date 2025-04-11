@@ -490,7 +490,7 @@ class TripleStore implements Closeable {
 	 * @return All triples sorted by context or null if no context index exists
 	 * @throws IOException
 	 */
-	public RecordIterator getAllTriplesSortedByContext(Txn txn) throws IOException {
+	public LmdbRecordIterator getAllTriplesSortedByContext(Txn txn) throws IOException {
 		for (TripleIndex index : indexes) {
 			if (index.getFieldSeq()[0] == 'c') {
 				// found a context-first index
@@ -500,7 +500,7 @@ class TripleStore implements Closeable {
 		return null;
 	}
 
-	public RecordIterator getTriples(Txn txn, long subj, long pred, long obj, long context, boolean explicit)
+	public LmdbRecordIterator getTriples(Txn txn, long subj, long pred, long obj, long context, boolean explicit)
 			throws IOException {
 		TripleIndex index = getBestIndex(subj, pred, obj, context);
 		// System.out.println("get triples: " + Arrays.asList(subj, pred, obj,context));
@@ -508,7 +508,7 @@ class TripleStore implements Closeable {
 		return getTriplesUsingIndex(txn, subj, pred, obj, context, explicit, index, doRangeSearch);
 	}
 
-	private RecordIterator getTriplesUsingIndex(Txn txn, long subj, long pred, long obj, long context,
+	private LmdbRecordIterator getTriplesUsingIndex(Txn txn, long subj, long pred, long obj, long context,
 			boolean explicit, TripleIndex index, boolean rangeSearch) throws IOException {
 		return new LmdbRecordIterator(pool, index, rangeSearch, subj, pred, obj, context, explicit, txn);
 	}

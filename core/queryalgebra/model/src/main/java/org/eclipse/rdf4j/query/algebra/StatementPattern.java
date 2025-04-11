@@ -362,6 +362,8 @@ public class StatementPattern extends AbstractQueryModelNode implements TupleExp
 			sb.append(" [statementOrder: ").append(statementOrder).append("] ");
 		}
 
+		System.err.println("indexName");
+		System.err.println(indexName);
 		if (indexName != null) {
 			sb.append(" [index: ").append(indexName).append("] ");
 		}
