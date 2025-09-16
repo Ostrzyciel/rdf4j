@@ -78,6 +78,8 @@ public abstract class AbstractReadWriteLockManager implements ReadWriteLockManag
 		boolean detectStalledOrDeadlock = false;
 		boolean stackTrace = false;
 
+		System.out.println("Diagnostics: " + java.util.Arrays.toString(lockDiagnostics));
+
 		for (LockDiagnostics lockDiagnostic : lockDiagnostics) {
 			switch (lockDiagnostic) {
 			case releaseAbandoned:
