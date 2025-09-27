@@ -281,6 +281,17 @@ public class RDFFormat extends FileFormat {
 			List.of("application/vnd.hdt"), null, List.of("hdt"), null,
 			SUPPORTS_NAMESPACES, NO_CONTEXTS, NO_RDF_STAR);
 
+	/**
+	 * The <a href="https://w3id.org/jelly/">Jelly-RDF</a> file format, a high-performance binary RDF format.
+	 * <p>
+	 * The file extension <code>.jelly</code> and media type <code>application/x-jelly-rdf</code> are recommended for
+	 * Jelly-RDF documents. The encoding is binary, though internally the strings are UTF-8.
+	 * </p>
+	 */
+	public static final RDFFormat JELLY = new RDFFormat("Jelly",
+			List.of("application/x-jelly-rdf"), null, List.of("jelly"), null,
+			SUPPORTS_NAMESPACES, SUPPORTS_CONTEXTS, SUPPORTS_RDF_STAR);
+
 	/*----------------*
 	 * Static methods *
 	 *----------------*/
