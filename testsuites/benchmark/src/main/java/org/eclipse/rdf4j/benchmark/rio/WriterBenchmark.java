@@ -55,16 +55,17 @@ public class WriterBenchmark {
 	public static final boolean TEXT_ONLY = false;
 
 	@Param({
-			"brf",
-			"jsonld",
-			"n3",
-			"nq",
-			"nt",
-			"rdf",
-			"rj",
-			"trig",
-			"trix",
-			"ttl",
+//			"brf",
+			"jelly",
+//			"jsonld",
+//			"n3",
+//			"nq",
+//			"nt",
+//			"rdf",
+//			"rj",
+//			"trig",
+//			"trix",
+//			"ttl",
 	})
 	public String format;
 	private RDFFormat writerFormat;

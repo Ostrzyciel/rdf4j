@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Eclipse RDF4J contributors.
+ * Copyright (c) 2025 Eclipse RDF4J contributors.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Distribution License v1.0
@@ -8,12 +8,12 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  *******************************************************************************/
-
 package org.eclipse.rdf4j.benchmark.rio.impl;
 
+import eu.neverblink.jelly.convert.rdf4j.rio.JellyParser;
+import eu.neverblink.jelly.convert.rdf4j.rio.JellyParserSettings;
 import org.eclipse.rdf4j.benchmark.rio.ParserBenchmark;
 import org.eclipse.rdf4j.rio.RDFParser;
-import org.eclipse.rdf4j.rio.binary.BinaryRDFParser;
 import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -21,21 +21,21 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 /**
- * @author Tomas Kovachev t.kovachev1996@gmail.com
+ * @author Piotr Sowiński
  */
-public class BinaryParserBenchmark extends ParserBenchmark {
+public class JellyParserBenchmark extends ParserBenchmark {
 
-	@Override
-	public RDFParser getParser() {
-		var x = new BinaryRDFParser();
-		x.set(BasicParserSettings.VERIFY_URI_SYNTAX, false);
-		return x;
-	}
+    @Override
+    public RDFParser getParser() {
+        var x = new JellyParser();
+        x.set(JellyParserSettings.CHECKING, false);
+        return x;
+    }
 
-	public static void main(String[] args) throws RunnerException {
-		Options opt = new OptionsBuilder()
-				.include(BinaryParserBenchmark.class.getSimpleName())
-				.build();
-		new Runner(opt).run();
-	}
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+                .include(JellyParserBenchmark.class.getSimpleName())
+                .build();
+        new Runner(opt).run();
+    }
 }

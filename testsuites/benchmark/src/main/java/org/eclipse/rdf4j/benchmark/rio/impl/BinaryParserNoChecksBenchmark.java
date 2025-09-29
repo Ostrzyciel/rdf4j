@@ -21,20 +21,23 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 /**
- * @author Tomas Kovachev t.kovachev1996@gmail.com
+ * Version of {@link BinaryParserBenchmark} with disabled validations.
  */
-public class BinaryParserBenchmark extends ParserBenchmark {
+public class BinaryParserNoChecksBenchmark extends ParserBenchmark {
 
 	@Override
 	public RDFParser getParser() {
-		var x = new BinaryRDFParser();
-		x.set(BasicParserSettings.VERIFY_URI_SYNTAX, false);
-		return x;
+		var parser = new BinaryRDFParser();
+		parser.set(BasicParserSettings.VERIFY_LANGUAGE_TAGS, false);
+		parser.set(BasicParserSettings.VERIFY_RELATIVE_URIS, false);
+		parser.set(BasicParserSettings.VERIFY_URI_SYNTAX, false);
+		parser.set(BasicParserSettings.PRESERVE_BNODE_IDS, true);
+		return parser;
 	}
 
 	public static void main(String[] args) throws RunnerException {
 		Options opt = new OptionsBuilder()
-				.include(BinaryParserBenchmark.class.getSimpleName())
+				.include(BinaryParserNoChecksBenchmark.class.getSimpleName())
 				.build();
 		new Runner(opt).run();
 	}

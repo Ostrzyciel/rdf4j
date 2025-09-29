@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>eu.neverblink.jelly</groupId>
 			<artifactId>jelly-rdf4j</artifactId>
-			<version>3.5.2+11-8526f1e8+20250927-1609-SNAPSHOT</version>
+			<version>3.5.2+13-60c1f0c3+20250927-1833-SNAPSHOT</version>
 			<exclusions>
 				<!-- Avoid duplicate RDF4J versions -->
 				<exclusion>
