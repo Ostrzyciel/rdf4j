@@ -28,18 +28,7 @@ import org.eclipse.rdf4j.repository.sail.SailRepository;
 import org.eclipse.rdf4j.repository.sail.SailRepositoryConnection;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.sail.lmdb.LmdbStore;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Level;
-import org.openjdk.jmh.annotations.Measurement;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OutputTimeUnit;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.TearDown;
-import org.openjdk.jmh.annotations.Warmup;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -52,6 +41,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 @Warmup(iterations = 5)
 @BenchmarkMode({ Mode.AverageTime })
 @Fork(value = 1, jvmArgs = { "-Xms1G", "-Xmx1G" })
+@Threads(8)
 //@Fork(value = 1, jvmArgs = {"-Xms1G", "-Xmx1G", "-XX:StartFlightRecording=jdk.CPUTimeSample#enabled=true,filename=profile.jfr,method-profiling=max","-XX:FlightRecorderOptions=stackdepth=1024", "-XX:+UnlockDiagnosticVMOptions", "-XX:+DebugNonSafepoints"})
 @Measurement(iterations = 5)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -126,7 +116,7 @@ public class QueryBenchmark {
 
 	public static void main(String[] args) throws RunnerException {
 		Options opt = new OptionsBuilder()
-				.include("QueryBenchmark.ordered_union_limit") // adapt to run other benchmark tests
+				.include("QueryBenchmark.count_all") // adapt to run other benchmark tests
 				.forks(0)
 				.build();
 
@@ -159,6 +149,15 @@ public class QueryBenchmark {
 			return stream.count();
 		}
 	}
+
+    @Benchmark
+    public long count_all() {
+        try (SailRepositoryConnection connection = repository.getConnection()) {
+            return count(connection
+                    .prepareTupleQuery("SELECT (COUNT(*) as ?c) WHERE { ?s ?p ?o }")
+                    .evaluate());
+        }
+    }
 
 	// @Benchmark
 	public long allBenchmarks() {
